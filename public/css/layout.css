@@ -1,0 +1,92 @@
+body {
+  margin      : 0;
+  padding     : 0 0 50px 0;
+  font-family: sans-serif;
+  font-size   : 14px;
+  line-height : 18px;
+  cursor      : default;
+}
+ 
+.container {
+  width    : 960px;
+  position : relative;
+  margin   : 0 auto;
+}
+ 
+.header, .footer {
+  background  : #000;
+  line-height : 18px;
+  height      : 50px;
+  width       : 95%;
+  padding: 5px;
+  margin: 0 auto;
+  color       : #fff;
+}
+ 
+.header h1, .header a {
+  display : inline-block;
+}
+
+.header a, .footer a {
+	color: #fff;
+	margin: 10px 20px 5px 0px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.header a:hover {
+	color: #f00;
+	text-decoration: underline;
+}
+ 
+.header h1 {
+  margin      : 0;
+  font-weight : normal;
+}
+ 
+.footer {
+  position : absolute;
+  bottom : 0;
+}
+ 
+.content {
+  padding : 25px 0;
+}
+ 
+label, input, textarea, .page_link {
+  clear  : both;
+  float  : left;
+  margin : 5px 0;
+}
+
+input {
+	font-weight: bold;
+}
+
+input, textarea {
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: sans-serif;
+}
+
+label {
+	font-weight: bold;
+}
+
+.errors {
+	color: red;
+}
+
+.story_edit {
+	width: 100%;
+}
+
+.story_body_view {
+	background-color: #eee;
+	padding: 10px;
+	width: 100%;
+}
+
+textarea.story_edit {
+#	height: 400px;
+}

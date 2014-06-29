@@ -35,6 +35,10 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
+	if (Input::get('title')) { Session::put('title', Input::get('title')); }
+	if (Input::get('body')) { Session::put('body', Input::get('body')); }
+	if (Input::get('save_story')) { Session::put('save_story', 1); }
+
 	if (Auth::guest())
 	{
 		if (Request::ajax())
@@ -43,7 +47,8 @@ Route::filter('auth', function()
 		}
 		else
 		{
-			return Redirect::guest('login');
+			if (Input::get('save_story')) { Session::put('login_recover', 1); }
+			return Redirect::guest('/login');
 		}
 	}
 });
@@ -88,3 +93,26 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+
+
+Route::filter('contestant', function()
+{
+	if (!Auth::user()->contestant && !Auth::user()->admin) return Redirect::to('/');
+});
+
+Route::filter('reviewer', function()
+{
+	if (!Auth::user()->reviewer && !Auth::user()->admin) return Redirect::to('/');
+});
+
+Route::filter('judge', function()
+{
+	if (!Auth::user()->judge && !Auth::user()->admin) return Redirect::to('/');
+});
+
+Route::filter('admin', function()
+{
+	if (!Auth::user()->admin) return Redirect::to('/');
+});
+

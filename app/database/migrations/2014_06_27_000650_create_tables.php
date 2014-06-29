@@ -1,0 +1,69 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateTables extends Migration {
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('users', function($table)
+		{
+			$table->increments('id');
+			$table->string('username', 64);
+			$table->string('email', 256);
+			$table->string('password', 64);
+			$table->boolean('contestant');
+			$table->boolean('reviewer');
+			$table->boolean('judge');
+			$table->boolean('admin');
+			$table->string('remember_token', 100)->nullable();
+			$table->timestamps();
+		});
+		
+		Schema::create('stories', function($table)
+		{
+			$table->increments('id');
+			$table->integer('user_id');
+			$table->foreign('user_id')->references('id')->on('users');
+			$table->string('title', 256);
+			$table->text('body');
+			$table->timestamps();
+		});
+		
+		Schema::create('reviews', function($table)
+		{
+			$table->increments('id');
+			$table->integer('user_id');
+			$table->foreign('user_id')->references('id')->on('users');
+			$table->integer('story_id');
+			$table->foreign('story_id')->references('id')->on('stories');
+			$table->tinyInteger('technical_score');
+			$table->tinyInteger('structure_score');
+			$table->tinyInteger('theme_score');
+			$table->tinyInteger('impact_score');
+			$table->tinyInteger('misc_score');
+			$table->text('notes');
+			$table->timestamps();
+		});
+		
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::drop('users');
+		Schema::drop('stories');
+		Schema::drop('reviews');
+	}
+
+}
