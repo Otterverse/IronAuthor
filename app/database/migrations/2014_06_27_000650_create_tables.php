@@ -25,7 +25,7 @@ class CreateTables extends Migration {
 			$table->string('remember_token', 100)->nullable();
 			$table->timestamps();
 		});
-		
+
 		Schema::create('stories', function($table)
 		{
 			$table->increments('id');
@@ -35,23 +35,24 @@ class CreateTables extends Migration {
 			$table->text('body');
 			$table->timestamps();
 		});
-		
+
 		Schema::create('reviews', function($table)
 		{
 			$table->increments('id');
+			$table->boolean('pending');
 			$table->integer('user_id');
 			$table->foreign('user_id')->references('id')->on('users');
 			$table->integer('story_id');
 			$table->foreign('story_id')->references('id')->on('stories');
-			$table->tinyInteger('technical_score');
-			$table->tinyInteger('structure_score');
-			$table->tinyInteger('theme_score');
-			$table->tinyInteger('impact_score');
-			$table->tinyInteger('misc_score');
-			$table->text('notes');
+			$table->tinyInteger('technical_score')->nullable();
+			$table->tinyInteger('structure_score')->nullable();
+			$table->tinyInteger('theme_score')->nullable();
+			$table->tinyInteger('impact_score')->nullable();
+			$table->tinyInteger('misc_score')->nullable();
+			$table->text('notes')->nullable();
 			$table->timestamps();
 		});
-		
+
 	}
 
 	/**

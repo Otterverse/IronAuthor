@@ -1,6 +1,19 @@
 @extends("layout")
 @section("content")
-<p>Welcome {{ Auth::user()->username }}</p>
-{{link_to('/logout', "Click here to logout", array('class' => 'page_link')) }}
+<h3>Welcome {{ Auth::user()->username }}</h3>
+
+  @if (Auth::user()->contestant)
+    <button onclick="window.location.href='/story/view/0';">View/Create Story Entry</button><br>
+  @endif
+
+  @if (Auth::user()->reviewer)
+    <button onclick="window.location.href='/reviews';">View/Edit Reviews</button><br>
+  @endif
+
+  @if (Auth::user()->judge)
+    <button onclick="window.location.href='/story/list';">View Stories/Scores</button><br>
+  @endif
+
+<button onclick="window.location.href='/logout';">Logout</button>
 
 @stop

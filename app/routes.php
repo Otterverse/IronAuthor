@@ -14,7 +14,14 @@
 
 Route::get('/', array('before' => 'auth', function()
 {
+
+//   if (Auth::user()->contestant) {
+//     return Redirect::to('/story/view/0');
+//   }elseif(Auth::user()->reviewer){
+//     return Redirect::to('/reviews');
+//   }
 	return View::make('home');
+
 }));
 
 Route::get('/register', array('before' => 'guest', function()
@@ -50,8 +57,22 @@ Route::get('/logout', function()
 });
 
 
-Route::get('/story/edit', array('before' => 'auth|contestant', 'uses' => 'StoryController@edit'));
-Route::post('/story/edit', array('before' => 'auth|contestant',  'uses' =>  'StoryController@save'));
-Route::get('/story/delete', array('before' => 'auth|admin',  'uses' => 'StoryController@delete'));
+Route::get('/admin/user', array('before' => 'auth|admin', 'uses' => 'UserController@admin'));
+Route::post('/admin/user', array('before' => 'auth|admin', 'uses' => 'UserController@edit'));
 
-Route::get('/story/view', array('before' => 'auth', 'uses' => 'StoryController@view'));
+
+Route::get('/story/edit/{id}', array('before' => 'auth|contestant', 'uses' => 'StoryController@edit'));
+Route::post('/story/edit/{id}', array('before' => 'auth|contestant',  'uses' =>  'StoryController@save'));
+Route::get('/story/delete/{id}', array('before' => 'auth|admin',  'uses' => 'StoryController@delete'));
+
+Route::get('/story/view/{id}', array('before' => 'auth', 'uses' => 'StoryController@view'));
+
+Route::get('/story/list', array('before' => 'auth|judge', 'uses' => 'StoryController@storylist'));
+
+Route::get("/reviews", array('before' => 'auth|reviewer', 'uses' => 'ReviewController@home'));
+Route::get("/review/new", array('before' => 'auth|reviewer', 'uses' => 'ReviewController@newReview'));
+Route::get("/review/view/{id}", array('before' => 'auth', 'uses' => 'ReviewController@view'));
+
+Route::get("/review/edit/{id}", array('before' => 'auth|reviewer', 'uses' => 'ReviewController@edit'));
+Route::post("/review/edit/{id}", array('before' => 'auth|reviewer', 'uses' => 'ReviewController@save'));
+

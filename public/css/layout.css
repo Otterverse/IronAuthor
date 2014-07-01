@@ -6,13 +6,13 @@ body {
   line-height : 18px;
   cursor      : default;
 }
- 
+
 .container {
   width    : 960px;
   position : relative;
   margin   : 0 auto;
 }
- 
+
 .header, .footer {
   background  : #000;
   line-height : 18px;
@@ -22,51 +22,69 @@ body {
   margin: 0 auto;
   color       : #fff;
 }
- 
+
 .header h1, .header a {
   display : inline-block;
 }
 
-.header a, .footer a {
+.header a, .footer a, .master_row a {
 	color: #fff;
 	margin: 10px 20px 5px 0px;
 	font-weight: bold;
 	text-decoration: none;
 }
 
-.header a:hover {
+.header a:hover, .master_row a:hover {
 	color: #f00;
 	text-decoration: underline;
 }
- 
+
+a {
+	color: #000;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #f00;
+	text-decoration: underline;
+}
+
+
 .header h1 {
   margin      : 0;
   font-weight : normal;
 }
- 
+
 .footer {
   position : absolute;
   bottom : 0;
 }
- 
+
 .content {
   padding : 25px 0;
 }
- 
-label, input, textarea, .page_link {
-  clear  : both;
-  float  : left;
-  margin : 5px 0;
-}
 
-input {
+input, button {
 	font-weight: bold;
 }
 
-input, textarea {
+input, textarea, button {
 	border: 3px solid #cccccc;
 	padding: 5px;
 	font-family: sans-serif;
+}
+
+input.table_input {
+  border: none;
+  padding: none;
+  clear: none;
+  front-weight: normal;
+  margin: 0;
+}
+
+button.table_input {
+  clear: none;
 }
 
 label {
@@ -83,10 +101,106 @@ label {
 
 .story_body_view {
 	background-color: #eee;
-	padding: 10px;
-	width: 100%;
+	width: 95%;
+  padding: 10px;
 }
 
-textarea.story_edit {
-#	height: 400px;
+
+td {
+  background-color: #eee;
+  padding: 3px;
+  text-align: right;
+}
+
+td.text_column {
+  text-align: left;
+}
+
+td.user_column {
+  text-align: center;
+  font-weight: bold;
+}
+
+
+td.high_score {
+  background-color: #bfb;
+}
+
+td.master_cell.high_score {
+  background-color: #080;
+}
+
+/*
+td.medium_score {
+  background-color: #ccf;
+}
+td.master_cell.medium_score {
+  background-color: #008;
+}
+*/
+
+td.low_score {
+  background-color: #fbb;
+}
+
+td.master_cell.low_score {
+  background-color: #800;
+}
+
+td.pending_score {
+  background-color: #ffb;
+}
+
+td.pending_score::after {
+  content: 'pending';
+}
+
+td.master_cell.pending_score::after {
+  content: initial;
+}
+
+td.master_cell.pending_score {
+  background-color: #880;
+}
+
+.author_cell {
+  display: none;
+}
+
+.notes_cell {
+  max-height: 4em;
+  min-height: 4em;
+  overflow: auto;
+}
+
+td.notes_view {
+  width: 100%;
+  text-align:left;
+}
+
+td.review_label {
+  font-weight: bold;
+}
+
+
+th {
+  background-color: #ccc;
+  padding: 3px;
+  white-space: nowrap;
+}
+
+.master_cell {
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  height: 2em;
+}
+
+table.review_edit, table.review_view {
+  margin: 10px 0;
+  width: 95%;
+}
+
+.review_notes {
+  width: 95%;
 }

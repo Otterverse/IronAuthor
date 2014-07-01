@@ -98,21 +98,21 @@ Route::filter('csrf', function()
 
 Route::filter('contestant', function()
 {
-	if (!Auth::user()->contestant && !Auth::user()->admin) return Redirect::to('/');
+	if (!Auth::user()->contestant && !Auth::user()->admin) return Response::make("Permission denied!", 403);
 });
 
 Route::filter('reviewer', function()
 {
-	if (!Auth::user()->reviewer && !Auth::user()->admin) return Redirect::to('/');
+	if (!Auth::user()->reviewer && !Auth::user()->admin && !Auth::user()->judge) return Response::make("Permission denied!", 403);
 });
 
 Route::filter('judge', function()
 {
-	if (!Auth::user()->judge && !Auth::user()->admin) return Redirect::to('/');
+	if (!Auth::user()->judge && !Auth::user()->admin) return Response::make("Permission denied!", 403);
 });
 
 Route::filter('admin', function()
 {
-	if (!Auth::user()->admin) return Redirect::to('/');
+	if (!Auth::user()->admin) return Response::make("Permission denied!", 403);
 });
 
