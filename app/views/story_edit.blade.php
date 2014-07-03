@@ -1,7 +1,6 @@
 @extends("layout")
-@section('head')
-@parent
-<script type='text/javascript'>
+
+@section("script")
 document.onreadystatechange = function () {
   if (document.readyState == "interactive") {
     document.getElementsByClassName('save_button')[0].onclick = function(){
@@ -29,9 +28,6 @@ formChanged = function(className) {
     }
     return false;
 }
-
-
-</script>
 @stop
 
 @section("content")

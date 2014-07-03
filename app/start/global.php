@@ -86,3 +86,4 @@ App::missing(function($exception)
     return Response::make('Not Found!', 404);
 });
 
+BBCode::setParser('linebreak', '/\r\n|\n|\r/', '<br />');

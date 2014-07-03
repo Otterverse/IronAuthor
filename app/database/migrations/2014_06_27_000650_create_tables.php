@@ -17,7 +17,9 @@ class CreateTables extends Migration {
 			$table->increments('id');
 			$table->string('username', 64);
 			$table->string('email', 256);
+			$table->string('fimfic', 256)->nullable();
 			$table->string('password', 64);
+      $table->boolean('want_feedback')->nullable();
 			$table->boolean('contestant');
 			$table->boolean('reviewer');
 			$table->boolean('judge');
@@ -53,6 +55,20 @@ class CreateTables extends Migration {
 			$table->timestamps();
 		});
 
+
+    Schema::create('contests', function($table)
+		{
+			$table->increments('id');
+      $table->text('general_rules')->nullable();
+      $table->text('secret_rules')->nullable();
+			$table->timestamp('start_time')->nullable();
+			$table->timestamp('stop_time')->nullable();
+			$table->integer('grace_time')->nullable();
+			$table->integer('max_reviews');
+      $table->boolean('locked')->nullable();
+			$table->timestamps();
+		});
+
 	}
 
 	/**
@@ -65,6 +81,7 @@ class CreateTables extends Migration {
 		Schema::drop('users');
 		Schema::drop('stories');
 		Schema::drop('reviews');
+    Schema::drop('contests');
 	}
 
 }

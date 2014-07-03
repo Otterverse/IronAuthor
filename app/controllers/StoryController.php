@@ -7,6 +7,25 @@ class StoryController extends BaseController {
 
 		$data = Input::all();
 		$user = Auth::user();
+    $contest = Contest::find(1);
+
+    if(!$user->admin)
+    {
+      if ($contest->stop_time && time() > $contest->stop_time + ($contest->grace_time * 60))
+      {
+        return Redirect::to("/story/view/$story_id")->with("message", "Deadline has passed! Story not modified!");
+      }
+
+      if ($contest->start_time && time() < $contest->start_time)
+      {
+        return Redirect::to("/story/view/$story_id")->with("message", "Contest hasn't started yet. Story not modified!");
+      }
+
+      if ($contest->locked)
+      {
+        return Redirect::to("/story/view/$story_id")->with("message", "Contest Locked! Story not modified!");
+      }
+    }
 
 		//Recover from login timeout or save failure
 		if (Session::pull('login_recover'))
@@ -63,6 +82,27 @@ class StoryController extends BaseController {
 	public function edit($story_id)
 	{
     $user = Auth::user();
+    $contest = Contest::find(1);
+
+    if(!$user->admin)
+    {
+      if ($contest->stop_time && time() > $contest->stop_time + ($contest->grace_time * 60))
+      {
+        return Redirect::to("/")->with("message", "Deadline has passed! No edits allowed!");
+      }
+
+      if ($contest->start_time && time() < $contest->start_time)
+      {
+        return Redirect::to("/")->with("message", "Contest hasn't started yet. No edits allowed!");
+      }
+
+      if ($contest->locked)
+      {
+        return Redirect::to("/")->with("message", "Contest Locked! No edits allowed!");
+      }
+    }
+
+
     if ($story_id == 0 && $user->contestant)
     {
       //Recover from login timeout
@@ -157,7 +197,7 @@ class StoryController extends BaseController {
       $story->impact_score = ($count) ? number_format($impact / $count, 2) : 0;
       $story->theme_score = ($count) ? number_format($theme / $count, 2) : 0;
       $story->misc_score = ($count) ? number_format($misc / $count, 2): 0;
-      $story->total_score = ($count) ? number_format(($misc + $struct + $impact + $theme + $misc ) / $count, 2) : 0;
+      $story->total_score = ($count) ? number_format(($tech + $struct + $impact + $theme + $misc ) / $count, 2) : 0;
 
     }
 

@@ -130,14 +130,14 @@ td.master_cell.high_score {
   background-color: #080;
 }
 
-/*
+
 td.medium_score {
-  background-color: #ccf;
+  background-color: #ffc;
 }
 td.master_cell.medium_score {
-  background-color: #008;
+  background-color: #880;
 }
-*/
+
 
 td.low_score {
   background-color: #fbb;
@@ -147,9 +147,9 @@ td.master_cell.low_score {
   background-color: #800;
 }
 
-td.pending_score {
+/* td.pending_score {
   background-color: #ffb;
-}
+} */
 
 td.pending_score::after {
   content: 'pending';
@@ -203,4 +203,13 @@ table.review_edit, table.review_view {
 
 .review_notes {
   width: 95%;
+}
+
+#countdown-holder {
+  float: right;
+  font-weight: bold;
+}
+
+.highlight-countdown {
+  color: red;
 }

@@ -59,6 +59,14 @@ Route::get('/logout', function()
 
 Route::get('/admin/user', array('before' => 'auth|admin', 'uses' => 'UserController@admin'));
 Route::post('/admin/user', array('before' => 'auth|admin', 'uses' => 'UserController@edit'));
+Route::get('/user/{id}/story', array('before' => 'auth|admin', 'uses' => 'UserController@story'));
+Route::get('/admin/contest', array('before' => 'auth|admin', 'uses' => 'ContestController@settings'));
+Route::post('/admin/contest', array('before' => 'auth|admin', 'uses' => 'ContestController@save'));
+
+
+
+Route::get('/user/settings', array('before' => 'auth', 'uses' => 'UserController@settings'));
+Route::post('/user/settings', array('before' => 'auth', 'uses' => 'UserController@save_settings'));
 
 
 Route::get('/story/edit/{id}', array('before' => 'auth|contestant', 'uses' => 'StoryController@edit'));
@@ -75,4 +83,6 @@ Route::get("/review/view/{id}", array('before' => 'auth', 'uses' => 'ReviewContr
 
 Route::get("/review/edit/{id}", array('before' => 'auth|reviewer', 'uses' => 'ReviewController@edit'));
 Route::post("/review/edit/{id}", array('before' => 'auth|reviewer', 'uses' => 'ReviewController@save'));
+
+Route::get("/review/delete/{id}", array('before' => 'auth|reviewer', 'uses' => 'ReviewController@delete'));
 

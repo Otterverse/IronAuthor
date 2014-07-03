@@ -40,6 +40,29 @@ class ReviewController extends BaseController {
     return Response::make('Invalid story ID!', 404);
 	}
 
+  public function delete($review_id)
+	{
+    $user = Auth::user();
+    $review = Review::find($review_id);
+
+    if(!$review)
+    {
+      return Response::make('Invalid Review ID!', 404);
+    }
+
+    if ($review->user->id == $user->id && $user->reviewer) {
+      $review->delete();
+      return Redirect::to('/reviews')->with('message', "Review Deleted");
+    }
+
+    if($user->admin)
+    {
+      $story_id = $review->story->first()->id;
+      $review->delete();
+      return Redirect::to('/story/view/' . $story_id)->with("message", "Review Deleted");
+    }
+    return Response::make('Permission Denied!', 403);
+  }
 
 
   public function home()
@@ -106,6 +129,7 @@ public function save($review_id)
   public function newReview()
   {
     $user = Auth::user();
+    $contest = Contest::find(1);
     if($user->reviewer)
     {
       $pending = '';
@@ -127,13 +151,25 @@ public function save($review_id)
         $stories = Story::whereNotIn('id', $user->reviews()->lists('story_id'))->get();
 
         $stories = $stories->filter(function ($story) {
-          if($story->reviews()->count() < 4) { return true; }
+          if($story->reviews()->count() < Contest::find(1)->max_reviews) { return true; }
         });
 
 
         if($stories->isEmpty()){
           return Response::make("No stories left for you to review!", 200);
         }
+
+        $stories->values();
+
+        $stories->sortBy(function($story){
+          return $story->reviews()->count();
+        });
+
+        $low_count = $stories->first()->reviews()->count();
+
+        $stories = $stories->filter(function ($story) use($low_count){
+          if($story->reviews()->count() == $low_count) { return true; }
+        });
 
         $stories->values();
 

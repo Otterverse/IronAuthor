@@ -5,6 +5,9 @@
 @if(Auth::user()->contestant)
   <button onclick="window.location.href='/story/edit/0';">Edit Story</button><br>
 @endif
+@if(Auth::user()->admin)
+  <button onclick="window.location.href='/story/edit/{{ $story->id }}';">Edit Story</button><br>
+@endif
   <h1>{{ $story->title }}</h1>
 
 
@@ -13,8 +16,9 @@
     <table class="review_view">
       <thead>
       <tr><th colspan=3>Review by {{ $review->user->username }}
-      @if($review->user->id == Auth::user()->id)
-        {{link_to('/review/edit/' . $review->id, '(edit)')}}
+      @if($review->user->id == Auth::user()->id || Auth::user()->admin)
+      {{ link_to('/review/edit/' . $review->id, '(edit)') }}
+      {{ link_to('/review/delete/' . $review->id, '(delete)') }}
       @endif
       </th></tr>
       <tbody>

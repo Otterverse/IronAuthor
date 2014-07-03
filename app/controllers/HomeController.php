@@ -1,23 +1,45 @@
 <?php
 
-class HomeController extends BaseController {
+class ContestController extends BaseController {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'HomeController@showWelcome');
-	|
-	*/
-
-	public function showWelcome()
+	public function edit()
 	{
-		return View::make('hello');
+    if(Auth::user()->admin){
+      Contest::find(1);
+		  return View::make('edit_contest', compact('contest'));
+    }
+    return Make::response("Permission Denied", 403);
 	}
+
+  public function save()
+	{
+    if(Auth::user()->admin)
+    {
+      $data = Input::all();
+      $contest = Contest::find(1);
+
+
+      $rules = array
+		  (
+			'title' => array('required', 'min:2', 'max:256'),
+			'body' => array('required')
+		  );
+
+      $validator = Validator::make($data, $rules);
+
+      if ($validator->passes())
+      {
+        $contest->rules = Input::get('rules');
+        $contest->end_time = (Input::get('duration') * 3600) + time();
+        $contest->locked = Input::get('locked');
+      }
+      return Redirect::to('/contest')->withErrors($validator);
+
+	}
+  return Make::response("Permission Denied", 403);
+  }
+
+
+
 
 }

@@ -3,9 +3,44 @@
   <head>
   @section('head')
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/css/layout.css" />
     <title>Iron Author</title>
+    <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="/css/jquery.countdown.css">
+    <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.plugin.js"></script>
+    <script type="text/javascript" src="/js/jquery.countdown.js"></script>
   @show
+
+
+  <script type="text/javascript">
+
+  function start_timer() { $('#countdown-holder').countdown({
+    until: new Date({{Contest::find(1)->stop_time * 1000}}),
+  serverSync: new Date({{time() * 1000}}),
+    onTick: highlightLast5,
+    expiryText: 'Deadline Expired! Save now!',
+    compact: true,
+    format: 'HMS', description: 'Remaining'
+  }); }
+
+  function highlightLast5(periods) {
+      if ($.countdown.periodsToSeconds(periods) < 900) {
+          $(this).addClass('highlight-countdown');
+      }
+  }
+
+  @section('script')
+
+  @show
+
+    window.onload = function () {
+  @section("onload")
+    start_timer();
+  @show
+  };
+
+  </script>
+
   </head>
   <body>
     @include("header")

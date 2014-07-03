@@ -12,6 +12,20 @@ class DatabaseSeeder extends Seeder {
 		Eloquent::unguard();
 
 
+    $contest = new Contest;
+    $contest->locked = 0;
+    $contest->grace_time = 5;
+    $contest->general_rules = "[b]General Rules[/b]
+General rules go [i]here.[/i]";
+    $contest->secret_rules = "[b]Secret Rules[/b]
+Secret rules go [i]here.[/i]";
+    $contest->start_time = time();
+    $contest->stop_time = strtotime('2042/10/17');
+    $contest->max_reviews = 3;
+
+    $contest->save();
+
+
     User::create(array('username' => 'admin', 'email' => 'admin@example.com', 'password' => Hash::make('test'), 'admin' => 1, 'judge' => 1, 'reviewer' => 1, 'contestant' => 0 ));
     User::create(array('username' => 'judge', 'email' => 'judge@example.com', 'password' => Hash::make('test'), 'admin' => 0, 'judge' => 1, 'reviewer' => 0, 'contestant' => 0 ));
     User::create(array('username' => 'judge-reviewer', 'email' => 'judge-reviewer@example.com', 'password' => Hash::make('test'), 'admin' => 0, 'judge' => 1, 'reviewer' => 1, 'contestant' => 0 ));
@@ -40,6 +54,7 @@ class DatabaseSeeder extends Seeder {
       $user = new User;
       $user->username = 'reviewer' . $i;
       $user->email = 'reviewer' . $i . '@example.com';
+      $user->fimfic = 'reviewer' . $i . 'FimFic';
       $user->password = Hash::make('test');
       $user->contestant = false;
       $user->reviewer = true;
@@ -60,7 +75,7 @@ class DatabaseSeeder extends Seeder {
         $stories = Story::whereNotIn('id', $user->reviews()->lists('story_id'))->get();
 
         $stories = $stories->filter(function ($story) {
-          if($story->reviews()->count() < 3) { return true; }
+          if($story->reviews()->count() < Contest::find(1)->max_reviews) { return true; }
         });
 
         if($stories->isEmpty())
@@ -68,6 +83,18 @@ class DatabaseSeeder extends Seeder {
           unset($reviewers[$rand_user]);
           continue;
         }
+        $stories->values();
+
+        $stories->sortBy(function($story){
+          return $story->reviews()->count();
+        });
+
+        $low_count = $stories->first()->reviews()->count();
+
+        $stories = $stories->filter(function ($story) use($low_count){
+          if($story->reviews()->count() == $low_count) { return true; }
+        });
+
         $stories->values();
 
         $story = $stories->offsetGet( rand( 0, $stories->count() - 1) );
@@ -91,6 +118,7 @@ class DatabaseSeeder extends Seeder {
         $review->user()->associate($user);
         $review->save();
       }
+
 
 
 

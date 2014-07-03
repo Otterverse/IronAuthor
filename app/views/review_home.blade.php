@@ -1,9 +1,13 @@
 @extends("layout")
+
   @section("head")
   @parent
-  <script src="/css/sorttable.js"></script>
-  <script>
-   function showHideNotes(elem) {
+  <script src="/js/sorttable.js"></script>
+  @stop
+
+  @section("script")
+  @parent
+     function showHideNotes(elem) {
      if (getComputedStyle(elem).getPropertyValue("max-height") != 'none')
      {
        elem.style.maxHeight = 'none';
@@ -11,8 +15,13 @@
        elem.style.maxHeight = '4em';
      }
    }
-  </script>
   @stop
+
+  @section("onload")
+  @parent
+      sorttable.innerSortFunction.apply(document.getElementById('default_sort'), []);
+  @stop
+
 @section("content")
 
 @if (Auth::user()->reviewer)
@@ -22,8 +31,9 @@
 <table class="sortable">
 <thead>
 <tr>
+<th id='default_sort'>Story ID</th>
 <th>Story Title</th>
-<th id='total_header'>Total</th>
+<th>Total</th>
 <th>Technical</th>
 <th>Structure</th>
 <th>Impact</th>
@@ -42,13 +52,15 @@
       $total = ($total) ? $total : '';
     ?>
   <tr>
-  <td class="text_column">{{ link_to('/review/view/' . $review->id, $review->story->title) }}</td>
-  <td {{ isPending($review); }}>{{ $total }}</td>
-  <td {{ isPending($review); }}>{{ $review->technical_score }}</td>
-  <td {{ isPending($review); }}>{{ $review->structure_score }}</td>
-  <td {{ isPending($review); }}>{{ $review->impact_score }}</td>
-  <td {{ isPending($review); }}>{{ $review->theme_score }}</td>
-  <td {{ isPending($review); }}>{{ $review->misc_score }}</td>
+  <td>{{ $review->story_id }}</td>
+  <td class="text_column">{{ link_to('/review/view/' . $review->id, $review->story->title) }}
+   {{ link_to('/review/edit/' . $review->id, '(Edit)') }}</td>
+  <td class="{{ score($total, 4) }}">{{ $total }}</td>
+  <td class="{{ score($review->technical_score); }}">{{ $review->technical_score }}</td>
+  <td class="{{ score($review->structure_score); }}">{{ $review->structure_score }}</td>
+  <td class="{{ score($review->impact_score); }}">{{ $review->impact_score }}</td>
+  <td class="{{ score($review->theme_score); }}">{{ $review->theme_score }}</td>
+  <td class="{{ score($review->misc_score); }}">{{ $review->misc_score }}</td>
   <td class="text_column"><div class="notes_cell" onclick="showHideNotes(this)">{{ BBCode::parse($review->notes) }}</div></td>
   </tr>
 
@@ -59,8 +71,10 @@
 @stop
 
 <?php
-  function isPending($review)
-  {
-    return ($review->pending) ? 'class="pending_score"' : '';
+  function score($score, $multi = 1) {
+    if($score == '') { return 'pending_score';}
+    if($score <= 1 * $multi ) { return 'low_score';}
+    if(1 * $multi < $score && $score < 4 * $multi) { return 'medium_score';}
+    if($score >= 4 * $multi ) { return 'high_score';}
   }
 ?>
