@@ -18,7 +18,7 @@
     until: new Date({{Contest::find(1)->stop_time * 1000}}),
   serverSync: new Date({{time() * 1000}}),
     onTick: highlightLast5,
-    expiryText: 'Deadline Expired! Save now!',
+    expiryText: 'Deadline expired! Contest is over!',
     compact: true,
     format: 'HMS', description: 'Remaining'
   }); }

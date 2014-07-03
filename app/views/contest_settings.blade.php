@@ -47,6 +47,13 @@
  </tr>
 
  <tr>
+  <td class="text_column"><strong>Current Time: </strong><br>
+    Time on the server, as of page load.</td>
+  <td class="text_column" colspan=2>
+    {{ date('Y-m-d H:i:s', time()) }}
+  </td>
+ </tr>
+ <tr>
   <td class="text_column">{{ Form::label("start_time", "Start Time: ") }}<br>
     Strtotime() format. Any proper date/time string allowed. Leave blank for "now."</td>
   <td class="text_column" colspan=2>
