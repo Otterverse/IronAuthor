@@ -73,7 +73,7 @@ Route::get('/story/edit/{id}', array('before' => 'auth|contestant', 'uses' => 'S
 Route::post('/story/edit/{id}', array('before' => 'auth|contestant',  'uses' =>  'StoryController@save'));
 Route::get('/story/delete/{id}', array('before' => 'auth|admin',  'uses' => 'StoryController@delete'));
 
-Route::get('/story/view/{id}', array('before' => 'auth', 'uses' => 'StoryController@view'));
+Route::get('/story/view/{id}', array('uses' => 'StoryController@view'));
 
 Route::get('/story/list', array('before' => 'auth|judge', 'uses' => 'StoryController@storylist'));
 
@@ -85,4 +85,6 @@ Route::get("/review/edit/{id}", array('before' => 'auth|reviewer', 'uses' => 'Re
 Route::post("/review/edit/{id}", array('before' => 'auth|reviewer', 'uses' => 'ReviewController@save'));
 
 Route::get("/review/delete/{id}", array('before' => 'auth|reviewer', 'uses' => 'ReviewController@delete'));
+
+Route::get('/story/publiclist', array('uses' => 'StoryController@public_list'));
 

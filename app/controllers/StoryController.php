@@ -140,10 +140,11 @@ class StoryController extends BaseController {
 
 	public function view($story_id)
 	{
-    $user = Auth::user();
+    $user = (Auth::user()) ? Auth::user() : new User;
+    $contest = Contest::find(1);
     if ($story_id > 0)
     {
-      if(!($user->judge || $user->admin || $user->reviewer))
+      if(!($user->judge || $user->admin || $user->reviewer || $contest->publiclist))
       {
         return Response::make('Permission denied!', 403);
       }
@@ -208,6 +209,14 @@ class StoryController extends BaseController {
 	{
 		//$user = Auth::user()->story->delete();
 		return Response::make("Story $story_id deleted!", 200);
+	}
+	
+	public function public_list()
+	{
+		if(!Contest::find(1)->publiclist){ return Redirect::to('/')->with("message", "Stories will be viewable once judging is complete."); }
+		
+		$stories = Story::all();
+		return View::make('public_list', compact('stories'));
 	}
 
 }

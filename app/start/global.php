@@ -87,3 +87,5 @@ App::missing(function($exception)
 });
 
 BBCode::setParser('linebreak', '/\r\n|\n|\r/', '<br />');
+
+BBCode::setParser('hr', '/\[hr\]/', '<hr>');

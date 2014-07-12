@@ -20,7 +20,7 @@ class ContestController extends BaseController {
 			'general_rules' => array('required'),
 			'secret_rules' => array('required'),
       'start_time' => array('date'),
-      'stop_time' => array('date', 'after:now', 'required_without:duration'),
+      'stop_time' => array('date', 'required_without:duration'),
       'duration' => array('integer', 'min:0','required_without:stop_time'),
       'grace_time' => array('required', 'integer', 'min:0'),
       'max_reviews' => array('required', 'integer', 'min:0')
@@ -53,7 +53,15 @@ class ContestController extends BaseController {
       }else{
         $contest->locked = 0;
       }
-      $contest->save();
+
+      if (Input::get('publiclist'))
+      {
+        $contest->publiclist = 1;
+      }else{
+        $contest->publiclist = 0;
+      }
+
+     $contest->save();
       return Redirect::to('/');
      }
      return Redirect::to('/admin/contest')->withErrors($validator)->withInput();

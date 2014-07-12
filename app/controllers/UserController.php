@@ -87,6 +87,8 @@ class UserController extends BaseController {
     $user = User::find($user_id);
     $story = ($user->story) ? $user->story : new Story;
     $story->user()->associate($user);
+	$story->title = ($story->title) ? $story->title : 'Placeholder Title';
+	$story->body = ($story->body) ? $story->body : 'Placeholder';
 	  $story->save();
     return Redirect::to('/story/view/' . $story->id);
   }

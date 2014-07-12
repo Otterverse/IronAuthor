@@ -45,6 +45,13 @@
     {{ Form::checkbox('locked', 1, $contest->locked) }}
   </td>
  </tr>
+ 
+ <tr>
+  <td class="text_column" colspan=2>
+    {{ Form::label('publiclist', 'Make Entries Public') }}
+    {{ Form::checkbox('publiclist', 1, $contest->publiclist) }}
+  </td>
+ </tr>
 
  <tr>
   <td class="text_column"><strong>Current Time: </strong><br>

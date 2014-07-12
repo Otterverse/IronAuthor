@@ -59,13 +59,14 @@ class CreateTables extends Migration {
     Schema::create('contests', function($table)
 		{
 			$table->increments('id');
-      $table->text('general_rules')->nullable();
-      $table->text('secret_rules')->nullable();
+			$table->text('general_rules')->nullable();
+			$table->text('secret_rules')->nullable();
 			$table->timestamp('start_time')->nullable();
 			$table->timestamp('stop_time')->nullable();
 			$table->integer('grace_time')->nullable();
 			$table->integer('max_reviews');
-      $table->boolean('locked')->nullable();
+			$table->boolean('locked')->nullable();
+			$table->boolean('publiclist')->nullable();
 			$table->timestamps();
 		});
 
@@ -81,7 +82,7 @@ class CreateTables extends Migration {
 		Schema::drop('users');
 		Schema::drop('stories');
 		Schema::drop('reviews');
-    Schema::drop('contests');
+		Schema::drop('contests');
 	}
 
 }

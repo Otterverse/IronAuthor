@@ -5,9 +5,8 @@
 	@if (Auth::check())
 	&mdash; {{ Auth::user()->username }}
 	@endif
-  </h1>
-  <span id="countdown-holder"></span><br>
-	@if (Auth::check())
+  </h1>  <span id="countdown-holder"></span><br>
+@if (Auth::check())
 
 	  {{link_to('/', "Welcome") }}
 
@@ -35,11 +34,14 @@
 
 
 
-	@else
-	 {{link_to('/login', "Login") }}
-	 {{link_to('/register', "Create Account") }}
-	@endif
+@else
+ {{link_to('/login', "Login") }}
+ {{link_to('/register', "Create Account") }}
+@endif
 
+@if(Contest::find(1)->publiclist)
+  {{ link_to('/story/publiclist', 'Read All Entries') }}
+@endif
 
     </div>
   </div>

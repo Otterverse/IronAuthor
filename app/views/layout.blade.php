@@ -22,6 +22,18 @@
     compact: true,
     format: 'HMS', description: 'Remaining'
   }); }
+  
+  function serverTime() { 
+    var time = null; 
+    $.ajax({url: 'http://ironauthor.xepher.net/serverTime.php', 
+        async: false, dataType: 'text', 
+        success: function(text) { 
+            time = new Date(text); 
+        }, error: function(http, message, exc) { 
+            time = new Date(); 
+    }}); 
+    return time; 
+}
 
   function highlightLast5(periods) {
       if ($.countdown.periodsToSeconds(periods) < 900) {

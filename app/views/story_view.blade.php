@@ -2,16 +2,18 @@
 @section("content")
 <p class="errors"><b>{{ Session::get('message'); }}</b></p>
 
-@if(Auth::user()->contestant)
+@if(Auth::user() && Auth::user()->contestant)
   <button onclick="window.location.href='/story/edit/0';">Edit Story</button><br>
 @endif
-@if(Auth::user()->admin)
+@if(Auth::user() && Auth::user()->admin)
   <button onclick="window.location.href='/story/edit/{{ $story->id }}';">Edit Story</button><br>
 @endif
   <h1>{{ $story->title }}</h1>
+@if(Contest::find(1)->publiclist)
+<h3>by {{ $story->user->username }}</h3>
+@endif
 
-
-@if (Auth::user()->judge || Auth::user()->admin)
+@if (Auth::user() && (Auth::user()->judge || Auth::user()->admin))
   @foreach ($story->reviews()->get() as $review)
     <table class="review_view">
       <thead>
