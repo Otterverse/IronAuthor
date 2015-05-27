@@ -75,7 +75,7 @@ Route::get('/story/delete/{id}', array('before' => 'auth|admin',  'uses' => 'Sto
 
 Route::get('/story/view/{id}', array('uses' => 'StoryController@view'));
 
-Route::get('/story/list', array('before' => 'auth|judge', 'uses' => 'StoryController@storylist'));
+Route::get('/story/list/{phase?}', array('before' => 'auth|judge', 'uses' => 'StoryController@storylist'));
 
 Route::get("/reviews", array('before' => 'auth|reviewer', 'uses' => 'ReviewController@home'));
 Route::get("/review/new", array('before' => 'auth|reviewer', 'uses' => 'ReviewController@newReview'));

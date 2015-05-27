@@ -28,6 +28,10 @@
 <button onclick="window.location.href='/review/new';">Review New/Next Story</button>
  <br>
 @endif
+
+@if (Auth::user()->contestant && $reviews_remaining > 0)
+<h3>Required reviews remaining for qualification: {{$reviews_remaining}}</h3>
+@endif
 <table class="sortable">
 <thead>
 <tr>

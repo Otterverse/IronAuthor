@@ -13,6 +13,9 @@
 @section("content")
 <p class="errors"><b>{{ Session::get('message'); }}</b></p>
 
+<p><strong>Note:</strong> All scores have been emailed to those who requested them. If you have not recieved an email and were expecting one, let me (Xepher) know. Email xepherATxepherDOTnet</p>
+<p>This site will remain online until the end of August. It may be taken down after that, so please read/save any stories you wish to view before then.</p>
+
 <table class="sortable">
 <thead>
   <tr>

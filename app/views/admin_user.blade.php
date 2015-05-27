@@ -19,8 +19,9 @@
   <th>Wants Scores</th>
   <th>Admin?</th>
   <th>Judge?</th>
-  <th>Reviewer?</th>
   <th>Contestant?</th>
+  <th>Reviewer?</th>
+  <th>Review Phase</th>
   <th>Reset Password</th>
   <th>Story</th>
 </thead>
@@ -34,8 +35,9 @@
   <td class="check_column">{{ Form::checkbox('want_feedback_' . $user->id, 1, $user->want_feedback, array('class' => 'table_input')); }}</td>
   <td class="check_column">{{ Form::checkbox('admin_' . $user->id, 1, $user->admin, array('class' => 'table_input')); }}</td>
   <td class="check_column">{{ Form::checkbox('judge_' . $user->id, 1, $user->judge, array('class' => 'table_input')); }}</td>
-  <td class="check_column">{{ Form::checkbox('reviewer_' . $user->id, 1, $user->reviewer, array('class' => 'table_input')); }}</td>
   <td class="check_column">{{ Form::checkbox('contestant_' . $user->id, 1, $user->contestant, array('class' => 'table_input')); }}</td>
+  <td class="check_column">{{ Form::checkbox('reviewer_' . $user->id, 1, $user->reviewer, array('class' => 'table_input')); }}</td>
+  <td class="user_column">{{ Form::select('review_phase_' . $user->id, array('Public' => 'Public', 'Preliminary' => 'Preliminary', 'Final' => 'Final'), $user->review_phase, array('class' => 'table_input')); }}</td>
   <td class="user_column">{{ Form::text('newpass_' . $user->id, '', array('class' => 'table_input')) }}</td>
   <td class="user_column">{{ link_to('/user/' . $user->id . '/story' , 'Create/View') }}</td>
   </tr>
@@ -43,9 +45,10 @@
 </tbody>
 </table>
 
-   {{ Form::submit('Save', array('class' => 'noclear')) }}
-   {{ Form::reset('Reset', array('class' => 'noclear')) }}
-   {{ Form::close() }}
+{{ Form::hidden('phase', $phase) }}
+{{ Form::submit('Save', array('class' => 'noclear')) }}
+{{ Form::reset('Reset', array('class' => 'noclear')) }}
+{{ Form::close() }}
 
 
 @stop

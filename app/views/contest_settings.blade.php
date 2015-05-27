@@ -32,10 +32,10 @@
  </tr>
 
  <tr>
-  <td class="text_column">{{ Form::label("max_reviews", "Max Reviews: ") }}<br>
-    Desired number of reviews per story.</td>
+  <td class="text_column">{{ Form::label("required_reviews", "Required Reviews: ") }}<br>
+    Required number of reviews per contestant.</td>
   <td class="text_column" colspan=2>
-    {{ Form::text("max_reviews", $contest->max_reviews) }}
+    {{ Form::text("required_reviews", $contest->required_reviews) }}
   </td>
  </tr>
 
@@ -45,11 +45,25 @@
     {{ Form::checkbox('locked', 1, $contest->locked) }}
   </td>
  </tr>
+
+ <tr>
+  <td class="text_column" colspan=2>
+    {{ Form::label('current_phase', 'Judging Phase') }}
+    {{ Form::select('current_phase', array('Writing', 'Preliminary', 'Final', 'Closed'), $contest->current_phase) }}
+  </td>
+ </tr>
  
  <tr>
   <td class="text_column" colspan=2>
     {{ Form::label('publiclist', 'Make Entries Public') }}
     {{ Form::checkbox('publiclist', 1, $contest->publiclist) }}
+  </td>
+ </tr>
+
+ <tr>
+  <td class="text_column" colspan=2>
+    {{ Form::label('publicreviews', 'Allow Public Reviews') }}
+    {{ Form::checkbox('publicreviews', 1, $contest->publicreviews) }}
   </td>
  </tr>
 
