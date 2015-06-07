@@ -194,6 +194,10 @@ th {
   height: 2em;
 }
 
+.master_cell a {
+  color: #fff;
+}
+
 table.review_edit, table.review_view {
   margin: 10px 0;
   width: 95%;
