@@ -13,9 +13,6 @@
     {{ Form::label('fimfic', 'User Page (FimFic or other URL) (Optional)') }}<br>
     {{ Form::text('fimfic', $user->fimfic, array("size" => "50")) }}<br>
 
-    {{ Form::label('contestant', 'Are you a contestant? (If not, you\'ll still have access to review and rate stories.)' }}<br>
-    {{ Form::checkbox('contestant', Input::old('contestant')) }}<br>
-
     {{ Form::label('want_feedback', 'Want to have your score/reviews emailed to you?') }}<br>
     {{ Form::checkbox('want_feedback', 1, $user->want_feedback) }}<br>
 

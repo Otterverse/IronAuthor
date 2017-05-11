@@ -3,12 +3,8 @@
 class Story extends Eloquent
 {
 
-	public function reviews($phase = NULL)
+	public function reviews()
 	{
-		if ($phase)
-		{
-			return $this->hasMany('Review')->where('phase','=', $phase);
-		}
 		return $this->hasMany('Review');
 	}
 

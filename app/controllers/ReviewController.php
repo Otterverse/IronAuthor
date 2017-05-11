@@ -28,28 +28,22 @@ class ReviewController extends BaseController {
 	{
     $user = Auth::user();
     $review = Review::find($review_id);
-    $contest = Contest::find(1);
 
     if ($review)
     {
       if ($review && $review->user->id == $user->id || $user->admin)
       {
-        if($review->can_edit)
-        {
-          return Response::make('Reviews for '. $review->phase . ' can no longer be modified.', 403);
-        }
         return View::make('review_edit', compact('review'));
       }
       return Response::make('Permission Denied!', 403);
     }
-    return Response::make('Invalid review ID!', 404);
+    return Response::make('Invalid story ID!', 404);
 	}
 
   public function delete($review_id)
 	{
     $user = Auth::user();
     $review = Review::find($review_id);
-    $contest = Contest::find(1);
 
     if(!$review)
     {
@@ -57,11 +51,6 @@ class ReviewController extends BaseController {
     }
 
     if ($review->user->id == $user->id && $user->reviewer) {
-
-      if($review->phase != $contest->current_phase){
-        return Response::make('Reviews for '. $review->phase . ' can no longer be modified.', 403);
-      }
-
       $review->delete();
       return Redirect::to('/reviews')->with('message', "Review Deleted");
     }
@@ -83,13 +72,7 @@ class ReviewController extends BaseController {
     if ($user->reviewer)
     {
       $reviews = $user->reviews()->get();
-
-      if($user->contestant)
-      {
-        $reviews_remaining = Contest::find(1)->required_reviews - $user->reviews()->count();
-      }
-
-      return View::make('review_home', compact('reviews', 'reviews_remaining'));
+      return View::make('review_home', compact('reviews'));
     }
     return Response::make('Permission Denied!', 403);
   }
@@ -149,39 +132,43 @@ public function save($review_id)
     $contest = Contest::find(1);
     if($user->reviewer)
     {
-
-
       $pending = '';
 
-      foreach($user->reviews($contest->current_phase)->get() as $review)
+      foreach($user->reviews()->get() as $review)
       {
-        if ($review->pending) {
-          return Redirect::to('/review/edit/' . $pending->id);
-        }
+         if ($review->pending) {
+           $pending = $review->id;
+           break;
+         }
       }
 
-      if(!$user->can_review())
+      if($pending)
       {
-        return Response::make("You are not a reviewer for this phase.", 403);
+        return Redirect::to('/review/edit/' . $pending);
       }
 
 
         $stories = Story::whereNotIn('id', $user->reviews()->lists('story_id'))->get();
 
-        $stories = $stories->filter(function ($story) use($contest){
-          if($story->phase == $contest->current_phase { return true; }
+        $stories = $stories->filter(function ($story) {
+          if($story->reviews()->count() < Contest::find(1)->max_reviews) { return true; }
         });
+
+
+        if($stories->isEmpty()){
+          return Response::make("No stories left for you to review!", 200);
+        }
 
         $stories->values();
 
-        $stories->sortBy(function($story) use($contest){
-          return $story->reviews($contest->current_phase)->count();
+        $stories->sortBy(function($story){
+          return $story->reviews()->count();
         });
 
-        $low_count = $stories->first()->reviews($contest->current_phase)->count();
+        $low_count = $stories->first()->reviews()->count();
 
-        $stories = $stories->filter(function ($story) use($low_count, $contest){
-          if($story->reviews($contest->current_phase)->count() == $low_count) { return true; }
+        $stories = $stories->filter(function ($story) use($low_count){
+          if($story->reviews()->count() == $low_count) { return true; }
         });
 
         $stories->values();
@@ -191,7 +178,6 @@ public function save($review_id)
 
         $review = new Review;
         $review->pending = 1;
-        $review->phase = $user->review_phase;
         $review->story()->associate($story);
         $review->user()->associate($user);
         $review->save();

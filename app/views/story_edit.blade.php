@@ -45,8 +45,6 @@ formChanged = function(className) {
   <button type="button" onclick="window.open('/bbcode.html', 'newwindow', 'height=600, width=400');">BBCode Help</button><br>
   {{ Form::label("title", "Title") }}<br>
   {{ Form::text("title", $data['title'],  array('class' => 'story_edit', 'id' => 'edit_form')) }}<br>
-  {{ Form::label("url", "External Story URL (Fimfic, etc. - Optional)") }}<br>
-  {{ Form::text("url", $data['url'],  array('class' => 'story_edit', 'id' => 'edit_form')) }}<br>
   {{ Form::label("body", "Story Body") }}<br>
   {{ Form::textarea("body", $data['body'], array('class' => 'story_edit', 'rows' => '30')) }}<br>
   {{ Form::hidden('save_story', '1' ) }}

@@ -52,6 +52,8 @@ class EmailScores extends Command {
 
       $story = $user->story;
 
+      if(!$story){ continue; }
+
       $reviews = $story->reviews()->get();
 
       $report = array('username' => $username, 'email' => $email, 'title' => $story->title, 'body' => $story->body);

@@ -23,7 +23,7 @@ class ContestController extends BaseController {
       'stop_time' => array('date', 'required_without:duration'),
       'duration' => array('integer', 'min:0','required_without:stop_time'),
       'grace_time' => array('required', 'integer', 'min:0'),
-      'required_reviews' => array('required', 'integer', 'min:0')
+      'max_reviews' => array('required', 'integer', 'min:0')
 		);
 
 		$validator = Validator::make($data, $rules);
@@ -33,8 +33,8 @@ class ContestController extends BaseController {
       print_r('Test');
       $contest->general_rules = $data['general_rules'];
       $contest->secret_rules = $data['secret_rules'];
-      $contest->required_reviews = $data['required_reviews'];
-      $contest->current_phase = $data['current_phase'];
+      $contest->max_reviews = $data['max_reviews'];
+      $contest->grace_time = $data['grace_time'];
 
       if ($data['start_time']){
         $contest->start_time = strtotime($data['start_time']);
@@ -61,14 +61,6 @@ class ContestController extends BaseController {
       }else{
         $contest->publiclist = 0;
       }
-
-      if (Input::get('publicreviews'))
-      {
-        $contest->publiclist = 1;
-      }else{
-        $contest->publiclist = 0;
-      }
-
 
      $contest->save();
       return Redirect::to('/');

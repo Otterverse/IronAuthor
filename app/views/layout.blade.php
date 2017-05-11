@@ -14,6 +14,19 @@
 
   <script type="text/javascript">
 
+@if ((Contest::find(1)->start_time && time() < Contest::find(1)->start_time) && !Contest::find(1)->locked )
+
+  function start_timer() { $('#countdown-holder').countdown({
+    until: new Date({{Contest::find(1)->start_time * 1000}}),
+  serverSync: new Date({{time() * 1000}}),
+    onTick: highlightLast5,
+    expiryText: 'Contest Started! Click Edit Story!',
+    compact: true,
+    format: 'HMS', description: 'Until start'
+  }); }
+
+@else
+
   function start_timer() { $('#countdown-holder').countdown({
     until: new Date({{Contest::find(1)->stop_time * 1000}}),
   serverSync: new Date({{time() * 1000}}),
@@ -22,6 +35,9 @@
     compact: true,
     format: 'HMS', description: 'Remaining'
   }); }
+
+@endif
+
   
   function serverTime() { 
     var time = null; 

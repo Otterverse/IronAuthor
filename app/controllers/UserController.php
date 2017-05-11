@@ -36,11 +36,10 @@ class UserController extends BaseController {
 			$user->fimfic = Input::get('fimfic');
 			$user->want_feedback = Input::get('want_feedback');
 			$user->password = Hash::make(Input::get('password'));
-      $user->contestant = Input::get('contestant');
+			$user->contestant = true;
 			$user->reviewer = false;
 			$user->judge = false;
 			$user->admin = false;
-      $user->review_phase = 'Public';
 			$user->save();
 
 			return Redirect::to('/login')->with('message', 'User created, please login.');
@@ -71,7 +70,6 @@ class UserController extends BaseController {
       $user->judge = (Input::get("judge_$id") == 1) ? 1 : 0;
       $user->reviewer = (Input::get("reviewer_$id") == 1) ? 1 : 0;
       $user->contestant = (Input::get("contestant_$id") == 1) ? 1 : 0;
-      $user->review_phase = Input::get("review_phase_$id");
 			if (Input::get("newpass_$id"))
       {
         $user->password = Hash::make(Input::get("newpass_$id"));
@@ -89,8 +87,8 @@ class UserController extends BaseController {
     $user = User::find($user_id);
     $story = ($user->story) ? $user->story : new Story;
     $story->user()->associate($user);
-    $story->title = ($story->title) ? $story->title : 'Placeholder Title';
-    $story->body = ($story->body) ? $story->body : 'Placeholder';
+	$story->title = ($story->title) ? $story->title : 'Placeholder Title';
+	$story->body = ($story->body) ? $story->body : 'Placeholder';
 	  $story->save();
     return Redirect::to('/story/view/' . $story->id);
   }
@@ -118,8 +116,7 @@ class UserController extends BaseController {
 			$user = Auth::user();
 			$user->email = Input::get('email');
 			$user->fimfic = Input::get('fimfic');
-      $user->want_feedback = Input::get('want_feedback');
-      $user->contestant = Input::get('contestant');
+			$user->want_feedback = Input::get('want_feedback');
       if (Input::get('password'))
       {
 			  $user->password = Hash::make(Input::get('password'));

@@ -14,23 +14,9 @@ class User extends Eloquent implements UserInterface{
 		return $this->hasOne('Story');
 	}
 
-	public function reviews()
+  public function reviews()
 	{
 		return $this->hasMany('Review');
-	}
-
-	public function can_review()
-	{
-		$contest = Contest::find(1);
-
-		if ($this->reviewer)
-		{
-			if($this->review_phase == $contest->current_phase || ($this->review_phase == "Public" && $contest->publicreviews))
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 
 }

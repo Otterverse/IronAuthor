@@ -10,16 +10,7 @@
 <tbody>
   <thead>
   <tr><th colspan=2>Contest Rules and Settings</th></tr>
- <tr>
-  <td class="text_column" colspan=2>{{ Form::label("general_rules", "General Rules: ") }}<br>
-      Always shown on welcome page. BBCode is allowed.<br>
-    <button type="button" onclick="window.open('/bbcode.html', 'newwindow', 'height=600, width=400');">BBCode Help</button>
-  </td>
-  </tr><tr>
-  <td class="text_column" colspan=2>
-    {{ Form::textarea("general_rules", $contest->general_rules, array('class' => 'review_notes')) }}
-  </td>
- </tr>
+ 
  <tr>
   <td class="text_column" colspan=2>{{ Form::label("secret_rules", "Secret Rules: ") }}<br>
     Shown on welcome page only once contest is live. BBCode is allowed.<br>
@@ -32,10 +23,22 @@
  </tr>
 
  <tr>
-  <td class="text_column">{{ Form::label("required_reviews", "Required Reviews: ") }}<br>
-    Required number of reviews per contestant.</td>
+  <td class="text_column" colspan=2>{{ Form::label("general_rules", "General Rules: ") }}<br>
+      Always shown on welcome page. BBCode is allowed.<br>
+    <button type="button" onclick="window.open('/bbcode.html', 'newwindow', 'height=600, width=400');">BBCode Help</button>
+  </td>
+  </tr><tr>
   <td class="text_column" colspan=2>
-    {{ Form::text("required_reviews", $contest->required_reviews) }}
+    {{ Form::textarea("general_rules", $contest->general_rules, array('class' => 'review_notes')) }}
+  </td>
+ </tr>
+ 
+
+ <tr>
+  <td class="text_column">{{ Form::label("max_reviews", "Max Reviews: ") }}<br>
+    Desired number of reviews per story.</td>
+  <td class="text_column" colspan=2>
+    {{ Form::text("max_reviews", $contest->max_reviews) }}
   </td>
  </tr>
 
@@ -45,25 +48,11 @@
     {{ Form::checkbox('locked', 1, $contest->locked) }}
   </td>
  </tr>
-
- <tr>
-  <td class="text_column" colspan=2>
-    {{ Form::label('current_phase', 'Judging Phase') }}
-    {{ Form::select('current_phase', array('Writing', 'Preliminary', 'Final', 'Closed'), $contest->current_phase) }}
-  </td>
- </tr>
  
  <tr>
   <td class="text_column" colspan=2>
     {{ Form::label('publiclist', 'Make Entries Public') }}
     {{ Form::checkbox('publiclist', 1, $contest->publiclist) }}
-  </td>
- </tr>
-
- <tr>
-  <td class="text_column" colspan=2>
-    {{ Form::label('publicreviews', 'Allow Public Reviews') }}
-    {{ Form::checkbox('publicreviews', 1, $contest->publicreviews) }}
   </td>
  </tr>
 
