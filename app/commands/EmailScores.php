@@ -39,7 +39,7 @@ class EmailScores extends Command {
 	{
 
 
-    $subject = "Iron Author 2014 Scores";
+    $subject = "Iron Author 2017 Scores";
 
     $users = User::where('want_feedback', '=', '1')->get();
 
