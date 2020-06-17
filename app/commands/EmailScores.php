@@ -39,7 +39,7 @@ class EmailScores extends Command {
 	{
 
 
-    $subject = "Iron Author 2017 Scores";
+    $subject = "PonyFest 3.0 Iron Author Scores";
 
     $users = User::where('want_feedback', '=', '1')->get();
 
@@ -112,41 +112,13 @@ class EmailScores extends Command {
     }
 
     foreach ($reports as $report){
-      $text = "Username: " . $report['username'] . "\n" .
-        "Story Title: " . $report['title'] . "\n" .
-        "Email: " . $report['email'] . "\n" .
-        "Averaged Scores: " . "\n" .
-        " Technical: " . $report['tech_total'] . "\n" .
-        " Structure: " . $report['struct_total'] . "\n" .
-        " Theme: " . $report['theme_total'] . "\n" .
-        " Impact: " . $report['impact_total'] . "\n" .
-        " Misc: " . $report['misc_total'] . "\n" .
-        " Final Score: " . $report['final_total'] . "\n\n\n";
-
-      $x = 0;
-      while($x < 3){
-              $x++;
-              $text .= "Review $x:\n---------\n" .
-                "Scores: \n" .
-                " Technical: " . $report["tech_$x"] . "\n" .
-                " Structure: " . $report["struct_$x"] . "\n" .
-                " Theme: " . $report["theme_$x"] . "\n" .
-                " Impact: " . $report["impact_$x"] . "\n" .
-                " Misc: " . $report["misc_$x"] . "\n" .
-                " Total Score: " . ($report["tech_$x"] + $report["struct_$x"] + $report["theme_$x"] + $report["impact_$x"] + $report["misc_$x"]) . "\n\n" .
-                "Notes: " . $report["notes_$x"] . "\n---------\n\n\n";
-
-
-      }
-
-      $text .= "A copy of your story is included below, including any BBCode you used, so it can be easily pasted into FimFiction.\n---------\n\n";
-      $text .= $report['title'] . " by " . $report['username'] . "\n\n";
-      $text .= $report['body'] . "\n\n";
 
        Mail::send(array('text' => 'email_scores'), compact('report'), function($message) use ($report, $subject){
          $message->to($report['email'], $report['username']);
          $message->subject($subject);
        });
+
+       sleep(5);
 
     }
 

@@ -21,24 +21,9 @@
 
 <h3 class="title">Contest Rules</h3>
 <div class="box">
-<strong>Scheduled Start:</strong> {{ date('Y-m-d H:i:s', $contest->start_time) }}<br>
-<strong>Scheduled End:</strong> {{ date('Y-m-d H:i:s', $contest->stop_time) }}<br>
+<strong>Scheduled Start:</strong> {{ date('Y-m-d H:i:s T', $contest->start_time) }}<br>
+<strong>Scheduled End:</strong> {{ date('Y-m-d H:i:s T', $contest->stop_time) }}<br>
 <p>{{ BBCode::parse($contest->general_rules) }}</p>
 </div>
-
-
-  @if (Auth::user()->contestant)
-    <button onclick="window.location.href='/story/view/0';">View/Create Story Entry</button><br>
-  @endif
-
-  @if (Auth::user()->reviewer)
-    <button onclick="window.location.href='/reviews';">View/Edit Reviews</button><br>
-  @endif
-
-  @if (Auth::user()->judge)
-    <button onclick="window.location.href='/story/list';">View Stories/Scores</button><br>
-  @endif
-
-<button onclick="window.location.href='/logout';">Logout</button>
 
 @stop

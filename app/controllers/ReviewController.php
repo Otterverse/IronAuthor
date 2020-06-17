@@ -57,7 +57,7 @@ class ReviewController extends BaseController {
 
     if($user->admin)
     {
-      $story_id = $review->story->first()->id;
+      $story_id = $review->story()->first()->id;
       $review->delete();
       return Redirect::to('/story/view/' . $story_id)->with("message", "Review Deleted");
     }
@@ -148,14 +148,19 @@ public function save($review_id)
       }
 
 
-        $stories = Story::whereNotIn('id', $user->reviews()->lists('story_id'))->get();
+
+      if($user->reviews()->count() < Contest::find(1)->max_reviews) {
+
+        $stories = Story::whereNotIn('id', $user->reviews()->lists('story_id') )->whereNotIn('id', [$user->story->id] )->get();
 
         $stories = $stories->filter(function ($story) {
           if($story->reviews()->count() < Contest::find(1)->max_reviews) { return true; }
         });
 
+      }
 
-        if($stories->isEmpty()){
+
+        if(is_null($stories) || $stories->isEmpty()){
           return Response::make("No stories left for you to review!", 200);
         }
 

@@ -15,6 +15,7 @@
   <th>ID</th>
   <th>User</th>
   <th>Email</th>
+  <th>Discord</th>
   <th>FimFic/URL</th>
   <th>Wants Scores</th>
   <th>Admin?</th>
@@ -30,6 +31,7 @@
   <td>{{ $user->id }}</td>
   <td class="user_column">{{ $user->username }}</td>
   <td class="user_column">{{ Form::text('email_' . $user->id, $user->email, array('class' => 'table_input')) }}</td>
+  <td class="user_column">{{ Form::text('discord_' . $user->id, $user->discord, array('class' => 'table_input')) }}</td>
   <td class="user_column">{{ Form::text('fimfic_' . $user->id, $user->fimfic, array('class' => 'table_input')) }}</td>
   <td class="check_column">{{ Form::checkbox('want_feedback_' . $user->id, 1, $user->want_feedback, array('class' => 'table_input')); }}</td>
   <td class="check_column">{{ Form::checkbox('admin_' . $user->id, 1, $user->admin, array('class' => 'table_input')); }}</td>

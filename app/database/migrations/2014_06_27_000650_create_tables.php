@@ -17,9 +17,10 @@ class CreateTables extends Migration {
 			$table->increments('id');
 			$table->string('username', 64);
 			$table->string('email', 256);
+			$table->string('discord', 64)->nullable();;
 			$table->string('fimfic', 256)->nullable();
 			$table->string('password', 64);
-      $table->boolean('want_feedback')->nullable();
+			$table->boolean('want_feedback')->nullable();
 			$table->boolean('contestant');
 			$table->boolean('reviewer');
 			$table->boolean('judge');

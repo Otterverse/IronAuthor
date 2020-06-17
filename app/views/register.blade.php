@@ -13,6 +13,9 @@
     {{ Form::label('email', 'Email address') }}<br>
     {{ Form::email('email', Input::old('email')) }}<br>
 
+    {{ Form::label('discord', 'Discord Username') }}<br>
+    {{ Form::text('discord', $user->discord, array("size" => "50")) }}<br>
+
     {{ Form::label('fimfic', 'User Page (FimFiction.net or other URL) (Optional)') }}<br>
     {{ Form::text('fimfic', Input::old('fimfic'), array("size" => "50")) }}<br>
 

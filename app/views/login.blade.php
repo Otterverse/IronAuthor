@@ -8,5 +8,5 @@
   {{ Form::password("password") }}<br>
   {{ Form::submit("Login") }}
   {{ Form::close() }}
-  <button type="button" onclick="window.location.href='/register';">Create Account</button>
+  <a href='/register'>Create Account</a>
 @stop

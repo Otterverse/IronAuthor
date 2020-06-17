@@ -19,13 +19,15 @@ class UserController extends BaseController {
 		(
 			'username' => array('required', 'regex:/^[A-Za-z0-9_-]{3,}$/', 'unique:users', 'max:64'),
 			'email' => array('required', 'email', 'max:256'),
+      'discord' => array('required', 'regex:/^.{3,}#[0-9]{4}$/', 'unique:users', 'max:64'),
 			'password' => array('required', 'confirmed'),
       'fimfic' => array('url')
 		);
 
 		$validator = Validator::make($data, $rules, array(
       'username.regex' => 'Username must be at least three characters and only contain alphanumeric characters, underscores, and/or dashes.',
-      'fimfic.url' => "User Page should be a proper URL. Example: http://fimfiction.net/user/Example"
+      'fimfic.url' => "User Page should be a proper URL. Example: http://fimfiction.net/user/Example",
+      'discord.regex' => "Discord ID must be the full username, including a pound sign and four digits. Ex: User#1234"
     ));
 
 		if ($validator->passes())
@@ -33,6 +35,7 @@ class UserController extends BaseController {
 			$user = new User;
 			$user->username = Input::get('username');
 			$user->email = Input::get('email');
+      $user->discord = Input::get('discord');
 			$user->fimfic = Input::get('fimfic');
 			$user->want_feedback = Input::get('want_feedback');
 			$user->password = Hash::make(Input::get('password'));
@@ -65,6 +68,7 @@ class UserController extends BaseController {
       $id = $user->id;
       $user->email = Input::get("email_$id");
       $user->fimfic = Input::get("fimfic_$id");
+      $user->discord = Input::get("discord_$id");
       $user->want_feedback = (Input::get("want_feedback_$id") == 1) ? 1 : 0;
       $user->admin = (Input::get("admin_$id") == 1) ? 1 : 0;
       $user->judge = (Input::get("judge_$id") == 1) ? 1 : 0;
@@ -87,8 +91,8 @@ class UserController extends BaseController {
     $user = User::find($user_id);
     $story = ($user->story) ? $user->story : new Story;
     $story->user()->associate($user);
-	$story->title = ($story->title) ? $story->title : 'Placeholder Title';
-	$story->body = ($story->body) ? $story->body : 'Placeholder';
+	  $story->title = ($story->title) ? $story->title : 'Placeholder Title';
+    $story->body = ($story->body) ? $story->body : 'Placeholder';
 	  $story->save();
     return Redirect::to('/story/view/' . $story->id);
   }
@@ -104,18 +108,21 @@ class UserController extends BaseController {
 			'email' => array('required', 'email', 'max:256'),
 			'password' => array('confirmed'),
       'fimfic' => array('url'),
+      'discord' => array('required', 'regex:/^.+#[0-9]{4}$/', 'max:64'),
 		);
 
 		$validator = Validator::make($data, $rules, array(
       'username.regex' => 'Username must be at least three characters and only contain alphanumeric characters, underscores, and/or dashes.',
-      'fimfic.url' => "User Page should be a proper URL. Example: http://fimfiction.net/user/Example"
+      'fimfic.url' => "User Page should be a proper URL. Example: http://fimfiction.net/user/Example",
+      'discord.regex' => "Discord ID must be the full username, including a pound sign and four digits. Ex: User#1234"
       ));
 
 		if ($validator->passes())
 		{
 			$user = Auth::user();
 			$user->email = Input::get('email');
-			$user->fimfic = Input::get('fimfic');
+      $user->fimfic = Input::get('fimfic');
+      $user->discord = Input::get('discord');
 			$user->want_feedback = Input::get('want_feedback');
       if (Input::get('password'))
       {
