@@ -47,7 +47,7 @@
     {{ Form::hidden('review_id', $review->id) }}
     {{ Form::submit("Save and View") }}
     {{ Form::reset("Reset") }}
-    <button onclick="window.location.href='/review/delete/{{ $review->id }}';">Delete!</button>
+    <button type="button" onclick="window.location.href='/review/delete/{{ $review->id }}';">Delete!</button>
     </td></tr>
   </tbody>
 </table>

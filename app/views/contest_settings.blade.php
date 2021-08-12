@@ -43,16 +43,30 @@
  </tr>
 
  <tr>
-  <td class="text_column" colspan=2>
+  <td class="text_column">
     {{ Form::label('locked', 'Lock Contest') }}
+  </td>
+  <td class="text_column" colspan=2>
     {{ Form::checkbox('locked', 1, $contest->locked) }}
   </td>
  </tr>
  
  <tr>
-  <td class="text_column" colspan=2>
+  <td class="text_column">
     {{ Form::label('publiclist', 'Make Entries Public') }}
+  </td>
+  <td class="text_column" colspan=2>
+
     {{ Form::checkbox('publiclist', 1, $contest->publiclist) }}
+  </td>
+ </tr>
+
+ <tr>
+  <td class="text_column">
+    {{ Form::label('external_judges', 'External Judges') }}
+  </td>
+  <td class="text_column" colspan=2>
+    {{ Form::checkbox('external_judges', 1, $contest->external_judges) }}
   </td>
  </tr>
 

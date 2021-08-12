@@ -62,6 +62,13 @@ class ContestController extends BaseController {
         $contest->publiclist = 0;
       }
 
+      if (Input::get('external_judges'))
+      {
+        $contest->external_judges = 1;
+      }else{
+        $contest->external_judges = 0;
+      }
+
      $contest->save();
       return Redirect::to('/');
      }

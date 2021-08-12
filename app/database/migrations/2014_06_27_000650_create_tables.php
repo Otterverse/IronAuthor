@@ -68,6 +68,7 @@ class CreateTables extends Migration {
 			$table->integer('max_reviews');
 			$table->boolean('locked')->nullable();
 			$table->boolean('publiclist')->nullable();
+			$table->boolean('external_judges')->nullable();
 			$table->timestamps();
 		});
 

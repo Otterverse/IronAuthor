@@ -149,9 +149,14 @@ public function save($review_id)
 
 
 
-      if($user->reviews()->count() < Contest::find(1)->max_reviews) {
+      if($user->reviews()->count() < Contest::find(1)->max_reviews || Contest::find(1)->external_judges) {
 
-        $stories = Story::whereNotIn('id', $user->reviews()->lists('story_id') )->whereNotIn('id', [$user->story->id] )->get();
+        $story_id = $user->story->id;
+        if (is_null($story_id)) {
+          $story_id = -1;
+        }
+
+        $stories = Story::whereNotIn('id', $user->reviews()->lists('story_id') )->whereNotIn('id', [$story_id] )->get();
 
         $stories = $stories->filter(function ($story) {
           if($story->reviews()->count() < Contest::find(1)->max_reviews) { return true; }

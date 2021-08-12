@@ -19,7 +19,7 @@ class UserController extends BaseController {
 		(
 			'username' => array('required', 'regex:/^[A-Za-z0-9_-]{3,}$/', 'unique:users', 'max:64'),
 			'email' => array('required', 'email', 'max:256'),
-      'discord' => array('required', 'regex:/^.{3,}#[0-9]{4}$/', 'unique:users', 'max:64'),
+      'discord' => array('regex:/^.{3,}#[0-9]{4}$/', 'unique:users', 'max:64'),
 			'password' => array('required', 'confirmed'),
       'fimfic' => array('url')
 		);
